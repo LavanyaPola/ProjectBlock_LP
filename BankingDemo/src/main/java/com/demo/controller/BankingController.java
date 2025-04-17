@@ -3,6 +3,8 @@ package com.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +34,7 @@ public class BankingController
 	    if (existing != null) 
 	    {
 	        existing.setAccbal(existing.getAccbal() + a.getAccbal());
-	        return acc.save(existing);
+	        return acc.save("Amount is added"+existing);
 	    } 
 	    else {
 	        return acc.save(a); // if account doesn't exist, save as new
@@ -53,9 +55,20 @@ public class BankingController
 	}
 	
 	@PostMapping("/update")
-	public Account updateAmount(@RequestBody Account a)
-	{
-		return acc.save(a);
+	public ResponseEntity<?> updateAccount(@RequestBody Account a) {
+	    Account existing = acc.findById(a.getAccno()).orElse(null);
+
+	    if (existing == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+	    }
+
+	    // Update only allowed fields (excluding accbal)
+	    existing.setAccno(a.getAccno());
+	    existing.setAccname(a.getAccname());
+	    // Do NOT change accbal
+
+	    acc.save(existing);
+	    return ResponseEntity.ok("Account details updated, balance unchanged");
 	}
 	
 	@PostMapping("/delete")

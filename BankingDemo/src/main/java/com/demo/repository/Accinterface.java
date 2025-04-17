@@ -9,4 +9,6 @@ import com.demo.model.Account;
 public interface Accinterface  extends JpaRepository<Account,Integer>
 {
 
+	Account save(String string);
+
 }
