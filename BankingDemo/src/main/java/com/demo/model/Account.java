@@ -11,17 +11,37 @@ public class Account
 	private int accno;
 	private String accname;
 	private double accbal;
+	private String accadd;
+	private long accph;
 	
 	public Account() {
 		super();
 		
 	}
 
-	public Account(int accno, String accname, double accbal) {
+	public Account(int accno, String accname, double accbal, String accadd, long accph) {
 		super();
 		this.accno = accno;
 		this.accname = accname;
 		this.accbal = accbal;
+		this.accadd = accadd;
+		this.accph = accph;
+	}
+
+	public String getAccadd() {
+		return accadd;
+	}
+
+	public void setAccadd(String accadd) {
+		this.accadd = accadd;
+	}
+
+	public long getAccph() {
+		return accph;
+	}
+
+	public void setAccph(long accph) {
+		this.accph = accph;
 	}
 
 	public int getAccno() {

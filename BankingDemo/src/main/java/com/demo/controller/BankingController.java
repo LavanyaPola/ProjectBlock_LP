@@ -27,6 +27,15 @@ public class BankingController
 		return acc.findAll();
     }
 	
+	
+	@PostMapping("/insert")
+	public  Account insertuser(@RequestBody Account a)
+	{
+		return acc.save(a);
+	}
+	
+	
+	
 	@PostMapping("/deposit")
 	public Account depositamount(@RequestBody Account a)
 	{
@@ -34,7 +43,7 @@ public class BankingController
 	    if (existing != null) 
 	    {
 	        existing.setAccbal(existing.getAccbal() + a.getAccbal());
-	        return acc.save("Amount is added"+existing);
+	        return acc.save(existing);
 	    } 
 	    else {
 	        return acc.save(a); // if account doesn't exist, save as new
@@ -62,19 +71,20 @@ public class BankingController
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
 	    }
 
-	    // Update only allowed fields (excluding accbal)
-	    existing.setAccno(a.getAccno());
-	    existing.setAccname(a.getAccname());
+	    // Update only allowed fields (excluding accno accname accbal)
+	    existing.setAccadd(a.getAccadd());
+	    existing.setAccph(a.getAccph());
+	    
 	    // Do NOT change accbal
 
 	    acc.save(existing);
-	    return ResponseEntity.ok("Account details updated, balance unchanged");
+	    return ResponseEntity.ok("Account details updated, Account Number, Name, and Balance Unchanged");
 	}
 	
 	@PostMapping("/delete")
 	public String deleteAmount(@RequestBody Account a)
 	{
 		acc.deleteAll();
-		return "Deleted";
+		return " Account is Deleted";
 	}
 }
